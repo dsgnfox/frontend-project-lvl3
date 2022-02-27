@@ -1,6 +1,6 @@
 import onChange from 'on-change';
 
-export default (state) => {
+export default (state, i18n) => {
   const urlInput = document.querySelector('input[name="url"]');
   const feedbackContainer = document.querySelector('.feedback');
 
@@ -9,7 +9,7 @@ export default (state) => {
       switch (value) {
         case 'success': {
           urlInput.value = '';
-          feedbackContainer.textContent = 'RSS успешно загружен';
+          feedbackContainer.textContent = i18n.t('rss_success_loaded');
           urlInput.classList.remove('is-invalid');
           feedbackContainer.classList.remove('text-danger');
           feedbackContainer.classList.add('text-success');
@@ -17,9 +17,10 @@ export default (state) => {
         }
         case 'invalid': {
           const { errors } = state.rssForm;
+          const errorsText = errors.map((error) => i18n.t(error.key));
           urlInput.classList.add('is-invalid');
           feedbackContainer.classList.add('text-danger');
-          feedbackContainer.textContent = `${errors.join('<br/>')}`;
+          feedbackContainer.textContent = `${errorsText.join('<br/>')}`;
           break;
         }
         default: {

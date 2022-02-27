@@ -1,28 +1,37 @@
+import i18next from 'i18next';
 import * as yup from 'yup';
+import resources from './locales/index.js';
 import view from './view';
 
-const state = {
-  rssForm: {
-    state: null,
-    errors: [],
-    data: {
-      url: null,
-    },
+yup.setLocale({
+  string: {
+    url: () => ({ key: 'url_must_be_valid' }),
+    notOneOf: () => ({ key: 'url_already_exists' }),
   },
-  feeds: [],
-  posts: [],
-};
-
-const watchedState = view(state);
+});
 
 const validate = (fields, feeds = []) => {
   const schema = yup.object().shape({
-    url: yup.string().url('Ссылка должна быть валидным URL').notOneOf(feeds, 'RSS уже существует'),
+    url: yup.string().url().notOneOf(feeds),
   });
   return schema.validate(fields, { abortEarly: false });
 };
 
-export default () => {
+const app = (i18n) => {
+  const state = {
+    rssForm: {
+      state: null,
+      errors: [],
+      data: {
+        url: null,
+      },
+    },
+    feeds: [],
+    posts: [],
+  };
+
+  const watchedState = view(state, i18n);
+
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -39,4 +48,12 @@ export default () => {
       watchedState.rssForm.state = 'invalid';
     });
   });
+};
+
+export default () => {
+  const i18nextInstance = i18next.createInstance();
+  i18nextInstance.init({
+    lng: 'ru',
+    resources,
+  }).then(() => app(i18nextInstance));
 };
