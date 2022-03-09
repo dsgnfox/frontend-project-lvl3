@@ -1,1 +1,31 @@
 @import "~bootstrap/scss/bootstrap";
+
+form {
+  button[type="submit"] {
+    position: relative;
+
+    &.disabled {
+      
+      & > .button-text {
+        opacity: 0;
+      }
+
+      & > .spinner {
+        opacity: 1;
+      }
+    }
+
+    & > .button-text {
+      transition: opacity .2s ease-in-out;
+    }
+
+    & > .spinner {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%);
+      opacity: 0;
+      transition: opacity .2s ease-in-out;
+    }
+  }
+}
