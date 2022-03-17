@@ -1,8 +1,13 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
+  entry: path.resolve(__dirname, './src/scripts/index.js'),
+  output: {
+    filename: 'bundle.[contenthash].js',
+  },
   module: {
     rules: [
       {
@@ -23,22 +28,17 @@ module.exports = {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader', 'postcss-loader'],
       },
-      {
-        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'url-loader?limit=10000',
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        use: 'file-loader',
-      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      title: 'RSS Feed',
+      template: './index.html',
+      inject: 'body',
+      scriptLoading: 'defer',
     }),
     new MiniCssExtractPlugin({
-      filename: 'main.css',
+      filename: 'main.[contenthash].css',
     }),
   ],
 };

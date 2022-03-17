@@ -19,3 +19,9 @@ extends:
 rules:
   no-console: 0
   import/extensions: 0
+
+ignorePatterns:
+  - "/node_modules/"
+  - "__tests__"
+  - "dist"
+  - "coverage"
