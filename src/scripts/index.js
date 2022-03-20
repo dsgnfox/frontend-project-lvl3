@@ -1,5 +1,5 @@
 // @ts-check
 import '../styles/style.scss';
-import runApp from './app';
+import runApp from './init';
 
 runApp();

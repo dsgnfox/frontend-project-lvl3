@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Amazing RSS feed",
-  "main": "src/scripts/app.js",
+  "main": "src/scripts/init.js",
   "scripts": {
     "test": "jest --colors"
   },
