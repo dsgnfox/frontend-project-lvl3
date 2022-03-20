@@ -28,7 +28,9 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/eslint-parser": "^7.15.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
     "@babel/preset-env": "^7.15.4",
+    "@jest/globals": "^27.5.1",
     "babel-jest": "^27.1.1",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.2.0",
@@ -51,8 +53,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.52.0",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.1.1",
-    "@jest/globals": "^27.5.1"
+    "webpack-dev-server": "^4.1.1"
   },
   "dependencies": {
     "axios": "^0.26.0",
