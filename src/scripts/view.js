@@ -6,7 +6,7 @@ const {
 } = elements;
 const { title: modalTitle, description: modalDescription, link: modalLink } = modal;
 
-const createElement = (type, classes = [], text) => {
+const createElement = (type, classes, text) => {
   const element = document.createElement(type);
   element.classList.add(...classes);
 
@@ -55,12 +55,16 @@ const createPosts = (state, i18n) => {
     const link = createElement('a', linkClasses, post.title);
     const button = createElement('button', ['btn', 'btn-outline-primary', 'btn-sm'], i18n.t('ui.viewButton'));
 
+    button.name = 'add';
+    button.ariaLabel = 'add';
+    button.role = 'button';
     button.dataset.postId = postId;
     button.dataset.bsToggle = 'modal';
     button.dataset.bsTarget = '#modal';
     link.dataset.postId = postId;
     link.target = '_blank';
     link.href = post.link;
+    link.role = link;
 
     item.append(link);
     item.append(button);

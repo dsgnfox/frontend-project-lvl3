@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "description": "Amazing RSS feed",
   "main": "./src/scripts/init.js",
-  "type": "module",
   "scripts": {
-    "test": "jest --colors"
+    "test": "npx jest --bail",
+    "start": "webpack serve --history-api-fallback --inline --progress"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "\\.js$": "babel-jest"
+    }
   },
   "repository": {
     "type": "git",
@@ -21,31 +27,22 @@
     "url": "https://github.com/dsgnfox/frontend-project-lvl3/issues"
   },
   "homepage": "https://github.com/dsgnfox/frontend-project-lvl3#readme",
-  "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/",
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
-    }
-  },
   "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
-    "@jest/globals": "^27.5.1",
-    "babel-jest": "^27.5.1",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
     "css-loader": "^6.2.0",
-    "debug": "^4.3.2",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jest": "^24.4.0",
     "html-webpack-plugin": "^5.3.2",
-    "jest": "^27.1.1",
-    "jest-cli": "^27.1.1",
     "mini-css-extract-plugin": "^2.5.3",
     "npm-check-updates": "^11.8.5",
-    "postcss-loader": "^6.1.1",
-    "postcss-preset-env": "^6.7.0",
     "sass": "^1.39.0",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
