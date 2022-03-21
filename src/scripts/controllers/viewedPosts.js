@@ -1,4 +1,4 @@
-import elements from '../elements';
+import elements from '../elements.js';
 
 const { postsContainer } = elements;
 

@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-import elements from './elements';
+import elements from './elements.js';
 
 const {
   input, submitButton, feedback, feedsContainer, postsContainer, modal,

@@ -2,7 +2,8 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Amazing RSS feed",
-  "main": "src/scripts/init.js",
+  "main": "./src/scripts/init.js",
+  "type": "module",
   "scripts": {
     "test": "jest --colors"
   },
@@ -23,21 +24,19 @@
   "jest": {
     "verbose": true,
     "testURL": "http://localhost/",
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    }
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/eslint-parser": "^7.15.4",
-    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
-    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-env": "^7.16.11",
     "@jest/globals": "^27.5.1",
-    "babel-jest": "^27.1.1",
-    "babel-loader": "^8.2.2",
+    "babel-jest": "^27.5.1",
     "css-loader": "^6.2.0",
     "debug": "^4.3.2",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jest": "^24.4.0",
     "html-webpack-plugin": "^5.3.2",

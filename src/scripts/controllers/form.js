@@ -1,6 +1,6 @@
-import updateFeeds from '../updateFeeds';
-import elements from '../elements';
-import validate from '../validate';
+import updateFeeds from '../updateFeeds.js';
+import elements from '../elements.js';
+import validate from '../validate.js';
 
 export default (watchedState) => {
   const { form } = elements;

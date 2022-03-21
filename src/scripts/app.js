@@ -1,7 +1,7 @@
 import i18next from 'i18next';
-import resources from './locales/index';
-import view from './view';
-import controllers from './controllers';
+import resources from './locales/index.js';
+import view from './view.js';
+import controllers from './controllers/index.js';
 
 const app = (i18n) => {
   const state = {

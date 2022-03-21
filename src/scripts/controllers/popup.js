@@ -1,5 +1,7 @@
-import 'bootstrap/js/dist/modal';
-import elements from '../elements';
+/* eslint no-unused-vars: "off" */
+
+import * as bootstrap from 'bootstrap';
+import elements from '../elements.js';
 
 const { box } = elements.modal;
 

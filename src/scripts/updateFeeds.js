@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { uniqueId } from 'lodash';
-import parseFeed from './parseFeed';
+import parseFeed from './parseFeed.js';
 
 let timer = null;
 const url = new URL('/get', 'https://allorigins.hexlet.app');
