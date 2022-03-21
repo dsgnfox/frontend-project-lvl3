@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import parseFeed from './parseFeed.js';
 
 let timer = null;
