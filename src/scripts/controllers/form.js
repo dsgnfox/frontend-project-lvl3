@@ -6,37 +6,39 @@ export default (watchedState) => {
   const { form } = elements;
   const state = watchedState;
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  document.addEventListener('DOMContentLoaded', () => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    state.form.status = 'idle';
-    state.loadingProcess.status = 'idle';
-    state.loadingProcess.status = 'loading';
+      state.form.status = 'idle';
+      state.loadingProcess.status = 'idle';
+      state.loadingProcess.status = 'loading';
 
-    const source = new FormData(form).get('url');
-    const addedFeedsUrls = state.feeds.map((feed) => feed.source);
-    const validation = validate({ source }, addedFeedsUrls);
+      const source = new FormData(form).get('url');
+      const addedFeedsUrls = state.feeds.map((feed) => feed.source);
+      const validation = validate({ source }, addedFeedsUrls);
 
-    validation.then(() => {
-      state.form.status = 'filling';
+      validation.then(() => {
+        state.form.status = 'filling';
 
-      updateFeeds(state.feeds, state.posts, source).then(() => {
-        state.loadingProcess.status = 'success';
+        updateFeeds(state.feeds, state.posts, source).then(() => {
+          state.loadingProcess.status = 'success';
+        }).catch((err) => {
+          let error = 'unknown_error';
+
+          if (err.isParsingError) {
+            error = 'rss_invalid';
+          } else if (err.isAxiosError) {
+            error = 'network_error';
+          }
+
+          state.loadingProcess.error = error;
+          state.loadingProcess.status = 'failing';
+        });
       }).catch((err) => {
-        let error = 'unknown_error';
-
-        if (err.isParsingError) {
-          error = 'rss_invalid';
-        } else if (err.isAxiosError) {
-          error = 'network_error';
-        }
-
-        state.loadingProcess.error = error;
-        state.loadingProcess.status = 'failing';
+        state.form.error = err.message;
+        state.form.status = 'invalid';
       });
-    }).catch((err) => {
-      state.form.error = err.message;
-      state.form.status = 'invalid';
     });
   });
 };
