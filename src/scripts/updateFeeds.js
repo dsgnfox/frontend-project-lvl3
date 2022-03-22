@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { uniqueId } from 'lodash-es';
+import { uniqueId } from 'lodash';
 import parseFeed from './parseFeed.js';
 
 let timer = null;
@@ -47,8 +47,9 @@ const updateFeeds = (feeds, posts, newFeedSource = null) => {
         reject(e);
       }
     }).catch((e) => {
-      e.isAxiosError = true;
-      reject(e);
+      const error = e;
+      error.isAxiosError = true;
+      reject(error);
     }).finally(() => {
       timer = setTimeout(() => {
         updateFeeds(feeds, posts);

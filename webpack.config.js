@@ -1,10 +1,12 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// Generated using webpack-cli https://github.com/webpack/webpack-cli
+// eslint-disable-next-line import/no-import-module-exports
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-module.exports = {
+export default {
   mode: process.env.NODE_ENV || 'development',
-  entry: path.resolve(__dirname, './src/scripts/index.js'),
+  entry: './src/scripts/index.js',
   output: {
     filename: 'bundle.[contenthash].js',
   },
@@ -34,8 +36,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'RSS Feed',
       template: './index.html',
-      inject: 'body',
-      scriptLoading: 'defer',
     }),
     new MiniCssExtractPlugin({
       filename: 'main.[contenthash].css',

@@ -1,5 +1,5 @@
-develop:
-	npx webpack serve
+server:
+	NODE_ENV=development npx webpack serve
 
 install:
 	npm ci
@@ -11,7 +11,10 @@ build:
 test:
 	npm test
 
+pretty:
+	npx prettier --write ./src/scss && npx prettier --write ./src/scripts
+
 lint:
-	npx eslint .
+	npx eslint --fix ./src/scripts
 
 .PHONY: test
