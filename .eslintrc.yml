@@ -12,5 +12,6 @@ rules:
   no-console: 0
   import/extensions: 0
   no-unused-vars: 0
+  max-len: off
   no-param-reassign: [ "error", { "props": true, "ignorePropertyModificationsForRegex": [ "watchedState", ], } ]
   no-tabs: ["error", { allowIndentationTabs: true }]

@@ -1,10 +1,4 @@
 import onChange from 'on-change';
-import elements from './elements.js';
-
-const {
-  input, submitButton, feedback, feedsContainer, postsContainer, modal,
-} = elements;
-const { title: modalTitle, description: modalDescription, link: modalLink } = modal;
 
 const createElement = (type, classes, text) => {
   const element = document.createElement(type);
@@ -86,99 +80,107 @@ const createPosts = (state, i18n) => {
   return card;
 };
 
-export default (state, i18n) => onChange(state, (path, value) => {
-  switch (path) {
-    case 'loadingProcess.status': {
-      switch (value) {
-        case 'idle': {
-          break;
+export default (state, elements, i18n) => {
+  const {
+ input, submitButton, feedback, feedsContainer, postsContainer, modal,
+} = elements;
+  const { title: modalTitle, description: modalDescription, link: modalLink } = modal;
+
+  return onChange(state, (path, value) => {
+    switch (path) {
+      case 'loadingProcess.status': {
+        switch (value) {
+          case 'idle': {
+            break;
+          }
+          case 'loading': {
+            feedback.textContent = '';
+            input.readOnly = true;
+            submitButton.disabled = true;
+            submitButton.classList.add('disabled');
+            break;
+          }
+          case 'success': {
+            input.readOnly = false;
+            submitButton.disabled = false;
+            submitButton.classList.remove('disabled');
+            feedback.textContent = i18n.t('messages.success.rss_success_loaded');
+            feedback.classList.remove('text-danger');
+            feedback.classList.add('text-success');
+            input.value = '';
+            break;
+          }
+          case 'failing': {
+            input.readOnly = false;
+            submitButton.disabled = false;
+            submitButton.classList.remove('disabled');
+            feedback.classList.add('text-danger');
+            feedback.classList.remove('text-success');
+            feedback.textContent = i18n.t(`messages.errors.${state.loadingProcess.error}`);
+            break;
+          }
+          default: {
+            throw new Error(`Unknown loading process: ${value}`);
+          }
         }
-        case 'loading': {
-          input.readOnly = true;
-          submitButton.disabled = true;
-          submitButton.classList.add('disabled');
-          feedback.textContent = '';
-          break;
-        }
-        case 'success': {
-          input.readOnly = false;
-          submitButton.disabled = false;
-          submitButton.classList.remove('disabled');
-          feedback.textContent = i18n.t('messages.success.rss_success_loaded');
-          feedback.classList.remove('text-danger');
-          feedback.classList.add('text-success');
-          input.value = '';
-          break;
-        }
-        case 'failing': {
-          input.readOnly = false;
-          submitButton.disabled = false;
-          feedback.textContent = i18n.t(`messages.errors.${state.loadingProcess.error}`);
-          submitButton.classList.remove('disabled');
-          feedback.classList.add('text-danger');
-          feedback.classList.remove('text-success');
-          break;
-        }
-        default: {
-          throw new Error(`Unknown loading process: ${value}`);
-        }
+        break;
       }
-      break;
-    }
-    case 'loadingProcess.error': {
-      break;
-    }
-    case 'form.status': {
-      switch (value) {
-        case 'idle': {
-          break;
-        }
-        case 'filling': {
-          input.focus();
-          input.classList.remove('is-invalid');
-          feedback.classList.remove('text-danger');
-          feedback.classList.add('text-success');
-          break;
-        }
-        case 'invalid': {
-          input.classList.add('is-invalid');
-          feedback.classList.add('text-danger');
-          feedback.textContent = i18n.t(`messages.errors.${state.form.error}`);
-          submitButton.disabled = false;
-          submitButton.classList.remove('disabled');
-          input.readOnly = false;
-          break;
-        }
-        default: {
-          throw new Error(`Unknown form status: ${value}`);
-        }
+      case 'loadingProcess.error': {
+        break;
       }
-      break;
+      case 'form.status': {
+        switch (value) {
+          case 'idle': {
+            break;
+          }
+          case 'filling': {
+            input.focus();
+            input.classList.remove('is-invalid');
+            feedback.classList.remove('text-danger');
+            feedback.classList.add('text-success');
+            break;
+          }
+          case 'invalid': {
+            input.classList.add('is-invalid');
+            submitButton.disabled = false;
+            submitButton.classList.remove('disabled');
+            input.readOnly = false;
+            feedback.classList.add('text-danger');
+            feedback.classList.remove('text-success');
+            feedback.textContent = i18n.t(`messages.errors.${state.form.error}`);
+            break;
+          }
+          default: {
+            throw new Error(`Unknown form status: ${value}`);
+          }
+        }
+        break;
+      }
+      case 'form.error': {
+        break;
+      }
+      case 'feeds': {
+        feedsContainer.innerHTML = '';
+        const feeds = createFeeds(state, i18n);
+        feedsContainer.append(feeds);
+        break;
+      }
+      case 'posts':
+      case 'uiState.viewedPostsIds': {
+        postsContainer.innerHTML = '';
+        const posts = createPosts(state, i18n);
+        postsContainer.append(posts);
+        break;
+      }
+      case 'uiState.popup': {
+        modalTitle.textContent = value.title;
+        modalDescription.textContent = value.description;
+        modalLink.href = value.link;
+        break;
+      }
+      default: {
+        throw new Error(`Unknown state path: ${value}`);
+      }
     }
-    case 'form.error': {
-      break;
-    }
-    case 'feeds': {
-      feedsContainer.innerHTML = '';
-      const feeds = createFeeds(state, i18n);
-      feedsContainer.append(feeds);
-      break;
-    }
-    case 'posts':
-    case 'uiState.viewedPostsIds': {
-      postsContainer.innerHTML = '';
-      const posts = createPosts(state, i18n);
-      postsContainer.append(posts);
-      break;
-    }
-    case 'uiState.popup': {
-      modalTitle.textContent = value.title;
-      modalDescription.textContent = value.description;
-      modalLink.href = value.link;
-      break;
-    }
-    default: {
-      throw new Error(`Unknown state path: ${value}`);
-    }
-  }
-});
+  });
+};
