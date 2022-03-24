@@ -17,7 +17,8 @@ export const addNewFeed = (state, newFeedUrl) => new Promise((resolve, reject) =
   });
 
   response.then((result) => {
-    const contents = parser(result.data.contents, result.data.status.url);
+    const url = result.config.url.searchParams.get('url');
+    const contents = parser(result.data.contents, url);
     const { feed: parsedFeed, posts: parsedPosts } = contents;
 
     if (!currentFeedsUrls.includes(parsedFeed.url)) {
