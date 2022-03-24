@@ -17,23 +17,19 @@ export const addNewFeed = (state, newFeedUrl) => new Promise((resolve, reject) =
   });
 
   response.then((result) => {
-    try {
-      const contents = parser(result.data.contents, result.data.status.url);
-      const { feed: parsedFeed, posts: parsedPosts } = contents;
+    const contents = parser(result.data.contents, result.data.status.url);
+    const { feed: parsedFeed, posts: parsedPosts } = contents;
 
-      if (!currentFeedsUrls.includes(parsedFeed.url)) {
-        currentFeeds.unshift(parsedFeed);
-      }
-
-      const newPosts = parsedPosts.filter((parsedPost) => !currentPostsNames.includes(parsedPost.title));
-
-      if (newPosts.length) {
-        currentPosts.unshift(...newPosts);
-      }
-      resolve();
-    } catch (e) {
-      reject(e);
+    if (!currentFeedsUrls.includes(parsedFeed.url)) {
+      currentFeeds.unshift(parsedFeed);
     }
+
+    const newPosts = parsedPosts.filter((parsedPost) => !currentPostsNames.includes(parsedPost.title));
+
+    if (newPosts.length) {
+      currentPosts.unshift(...newPosts);
+    }
+    resolve();
   }).catch((e) => {
     reject(e);
   });
