@@ -39,9 +39,10 @@ const app = (i18n) => {
     },
   };
 
-  const {
- form, submitButton, modal, postsContainer,
-} = elements;
+  const { form } = elements;
+  const { submitButton } = elements;
+  const { modal } = elements;
+  const { postsContainer } = elements;
   const watchedState = view(state, elements, i18n);
 
   const validate = (fields, feedsLink = []) => {

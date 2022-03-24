@@ -81,10 +81,15 @@ const createPosts = (state, i18n) => {
 };
 
 export default (state, elements, i18n) => {
-  const {
- input, submitButton, feedback, feedsContainer, postsContainer, modal,
-} = elements;
-  const { title: modalTitle, description: modalDescription, link: modalLink } = modal;
+  const { input } = elements;
+  const { submitButton } = elements;
+  const { feedback } = elements;
+  const { feedsContainer } = elements;
+  const { postsContainer } = elements;
+  const { modal } = elements;
+  const { modalTitle } = modal;
+  const { modalDescription } = modal;
+  const { modalLink } = modal;
 
   return onChange(state, (path, value) => {
     switch (path) {

@@ -25,7 +25,10 @@ export const addNewFeed = (state, newFeedUrl) => new Promise((resolve, reject) =
       currentFeeds.unshift(parsedFeed);
     }
 
-    const newPosts = parsedPosts.filter((parsedPost) => !currentPostsNames.includes(parsedPost.title));
+    const newPosts = parsedPosts.filter((parsedPost) => {
+      const { title } = parsedPost;
+      return !currentPostsNames.includes(title);
+    });
 
     if (newPosts.length) {
       currentPosts.unshift(...newPosts);

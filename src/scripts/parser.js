@@ -28,5 +28,5 @@ export default (feed, url) => {
       description: postItem.querySelector('description').textContent,
       link: postItem.querySelector('link').textContent,
     })),
-   };
+  };
 };
