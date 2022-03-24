@@ -87,9 +87,9 @@ export default (state, elements, i18n) => {
   const { feedsContainer } = elements;
   const { postsContainer } = elements;
   const { modal } = elements;
-  const { modalTitle } = modal;
-  const { modalDescription } = modal;
-  const { modalLink } = modal;
+  const modalTitle = modal.title;
+  const modalDescription = modal.description;
+  const modalLink = modal.link;
 
   return onChange(state, (path, value) => {
     switch (path) {
