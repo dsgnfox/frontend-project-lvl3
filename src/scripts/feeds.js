@@ -22,9 +22,9 @@ export const addNewFeed = (state, newFeedUrl) => {
     }
 
     const newPosts = parsedPosts.map((parsedPost) => ({
-        ...parsedPost,
-        postId: uniqueId(),
-      })).filter((newPost) => {
+      ...parsedPost,
+      postId: uniqueId()
+    })).filter((newPost) => {
       const { title: newTitle, url: newUrl } = newPost;
       return !currentPostsTitles.includes(newTitle) && !currentPostsUrls.includes(newUrl);
     });
