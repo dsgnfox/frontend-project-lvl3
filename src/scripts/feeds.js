@@ -1,22 +1,18 @@
 import axios from 'axios';
+import uniqueId from 'lodash/uniqueId.js';
 import parser from './parser.js';
 
-export const addNewFeed = (state, newFeedUrl) => new Promise((resolve, reject) => {
+export const addNewFeed = (state, newFeedUrl) => {
   const { feeds: currentFeeds, posts: currentPosts } = state;
   const currentFeedsUrls = currentFeeds.map((currentFeed) => currentFeed.url);
-  const currentPostsNames = currentPosts.map((currentPost) => currentPost.title);
+  const currentPostsTitles = currentPosts.map((currentPost) => currentPost.title);
+  const currentPostsUrls = currentPosts.map((currentPost) => currentPost.url);
   const proxy = new URL('/get', 'https://allorigins.hexlet.app');
 
   proxy.searchParams.set('disableCache', 'true');
   proxy.searchParams.set('url', newFeedUrl);
 
-  const response = axios.get(proxy).catch((e) => {
-    const error = e;
-    error.isAxiosError = true;
-    reject(error);
-  });
-
-  response.then((result) => {
+  return axios.get(proxy).then((result) => {
     const url = result.config.url.searchParams.get('url');
     const contents = parser(result.data.contents, url);
     const { feed: parsedFeed, posts: parsedPosts } = contents;
@@ -25,19 +21,19 @@ export const addNewFeed = (state, newFeedUrl) => new Promise((resolve, reject) =
       currentFeeds.unshift(parsedFeed);
     }
 
-    const newPosts = parsedPosts.filter((parsedPost) => {
-      const { title } = parsedPost;
-      return !currentPostsNames.includes(title);
+    const newPosts = parsedPosts.map((parsedPost) => ({
+        ...parsedPost,
+        postId: uniqueId(),
+      })).filter((newPost) => {
+      const { title: newTitle, url: newUrl } = newPost;
+      return !currentPostsTitles.includes(newTitle) && !currentPostsUrls.includes(newUrl);
     });
 
     if (newPosts.length) {
       currentPosts.unshift(...newPosts);
     }
-    resolve();
-  }).catch((e) => {
-    reject(e);
   });
-});
+};
 
 export const updateFeeds = (state) => {
   const timer = setTimeout(() => {
@@ -45,7 +41,7 @@ export const updateFeeds = (state) => {
     const currentFeedsUrls = currentFeeds.map((currentFeed) => currentFeed.url);
     const promises = currentFeedsUrls.map((url) => addNewFeed(state, url));
 
-    Promise.all(promises).then(() => {
+    Promise.all(promises).finally(() => {
       clearTimeout(timer);
       updateFeeds(state);
     });
